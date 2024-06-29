@@ -1,0 +1,464 @@
+---
+title: "Projekt"
+author: "Szymon Popkiewicz, Kacper Prorok"
+date: "2024-03-22"
+output: 
+  html_document:
+    code_folding: hide
+---
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(metRology)
+
+
+```
+
+# Część 1 
+
+*W części pierwszej nasze X są losowane z rozkładu jednostajnego [0,20] a E z rozkładu N(0,sigma).*
+
+```{r}
+df <- data.frame("n" = 0, "sigma" = 0,"p_val_shap"=0,"p_val_ks"=0)
+#rownames(df)<-NULL
+sigmas<-c(1,2,5,10)
+ns<-c(10,20,50,100,500)
+b<-2
+a<-1
+
+
+#CZESC 1
+for(n in ns)
+{
+  for(sig in sigmas)
+  {
+    for(i in 1:1000)
+    {
+      x<-runif(n,0,20)
+      epsilon<-rnorm(n,0,sig)
+      y<-x*b + a + epsilon
+      model<-lm(y~x)
+      cof<-data.frame(x=x,y=y)
+      #cof$y_model=cof$x*model$coefficients[2] + model$coefficients[1]
+      #cof$reszty=cof$y-cof$y_model
+      cof$reszty= cof$y - (cof$x*model$coefficients[2] + model$coefficients[1])
+      shap = shapiro.test(cof$reszty)$p.value
+      ks = ks.test(cof$reszty, "pnorm",mean=mean(cof$reszty),sd=sd(cof$reszty))$p.value
+      df<-rbind(df,c(n,sig,shap,ks))
+    }
+  }
+}
+df<-df[-1,]
+rownames(df)<-NULL
+#df%>%
+##  ggplot(aes(x=factor(n),y=p_val_shap))+
+ # geom_boxplot()+
+#  facet_wrap(~sigma)
+
+# df%>%
+#   ggplot(aes(x=p_val_shap,fill=factor(sigma)))+
+#   geom_density(alpha=0.3)+
+#   facet_wrap(~n)+
+#   labs(title = "Distribution of Shapiro-Wilk p-values by N",
+#        fill="Sigma",
+#        x="p-value",
+#        y="Density")
+
+df%>%
+  ggplot(aes(x=p_val_shap,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma)+
+  labs(title = "Distribution of Shapiro-Wilk p-values by Sigma",
+       fill="N")+
+  xlab("p-value")+
+  ylab("density")
+
+# df%>%
+#   ggplot(aes(x=p_val_ks,fill=factor(sigma)))+
+#   geom_density(alpha=0.3)+
+#   facet_wrap(~n)+
+#   labs(title = "Distribution of Kolomogrov-Smirnov p-values by N",
+#        fill="Sigma",
+#        x="p-value",
+#        y="Density")
+
+df%>%
+  ggplot(aes(x=p_val_ks,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma)+
+  labs(title = "Distribution of Kolomogrov-Smirnov p-values by Sigma",
+       fill="N")+
+  xlab("p-value")+
+  ylab("density")
+```
+
+Do badania czy reszty naszego modelu mają rozkład normalny użyliśmy dwóch testów - test Shapiro-Wilka oraz test Kolomogrova-Smirnova.
+
+Wnioski:
+
+W przypadku testu Shapiro-Wilka jest zdecydowana większość przyjęć hipotezy H0(reszty mają rozkład normalny), choć zdarzały się przypadki odrzucenia tej hipotezy. Test Kolomogorova-Smirnova praktycznie w każdym przypadku przyjął hipotezę H0(reszty mają rozkład normalny).  W przypadku obydwóch testów liczba danych(czyli liczba reszt modelu) oraz parametr sigma nie mają większego wpływu na rozkłady p-value.
+
+## Tabelki z odsetkami odrzuceń hipotezy H0
+
+Shapiro-wilk
+
+```{r}
+df%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_shap<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+
+```
+W przypadku testu Shapiro-wilka pojawiły się rozkłady, które został uznane za niezgodne z rozkładem normalnym, ale odsetki te są bardzo małe i raczej nie są zależne od liczby danych oraz od sigmy.
+
+
+Test Kolomogorova-Smirnova
+
+```{r}
+df%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_ks<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+```
+
+Test Kolomogorova-Smirnova w zasadzie w każdym przypadku przyjął hipotezę H0(reszty mają rozkład normalny). Pojawił się pojedyńczy przypadek w przypadku gdy sigma=100 oraz liczba N=500, ale poza tym test ten wykazywał, że reszty mają rozkład zgodny z rozkładem normalnym.
+
+
+## Wykresy podsumowujące 
+
+```{r}
+new_df<-df%>%
+  pivot_longer(cols=c("p_val_shap","p_val_ks"),names_to = "test",values_to = "pvalue")
+  #zamieniam testy na kolumny
+
+new_df%>%
+  ggplot(aes(x=pvalue,color=test,fill=test))+
+  geom_density(alpha=0.3)+
+  facet_grid(n~sigma)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+new_df%>%
+ggplot(aes(x=factor(n),y=pvalue,color=test))+
+  geom_boxplot()+
+  facet_wrap(~sigma)
+```
+
+Na powyższych wykresach został zebrane naraz rozkłady p-value z dwóch testów naraz. Główne wnioski rzucające się w oczy to różnica w rozkładach między dwoma testami, ale w obydwóch przypadkach sigma oraz liczba N mają praktycznie zerowy wpływ na rozkład p-value. 
+
+
+# Część 2
+
+*W części drugiej nasze X są losowane z rozkładu jednostajnego [0,200] a E z rozkładu N(0,sigma).*
+
+
+```{r}
+#CZESC 2
+
+df2 <- data.frame("n" = 0, "sigma" = 0,"p_val_shap"=0,"p_val_ks"=0)
+for(n in ns)
+{
+  for(sig in sigmas)
+  {
+    for(i in 1:1000)
+    {
+      x<-runif(n,0,200)
+      epsilon<-rnorm(n,0,sig)
+      y<-x*b + a + epsilon
+      model<-lm(y~x)
+      cof<-data.frame(x=x,y=y)
+      #cof$y_model=cof$x*model$coefficients[2] + model$coefficients[1]
+      #cof$reszty=cof$y-cof$y_model
+      cof$reszty= cof$y - (cof$x*model$coefficients[2] + model$coefficients[1])
+      shap = shapiro.test(cof$reszty)$p.value
+      ks = ks.test(cof$reszty, "pnorm",mean=mean(cof$reszty),sd=sd(cof$reszty))$p.value
+      df2<-rbind(df2,c(n,sig,shap,ks))
+    }
+  }
+}
+
+
+df2<-df2[-1,]
+rownames(df)<-NULL
+
+
+df2%>%
+  ggplot(aes(x=p_val_shap,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma,ncol=2)
+
+df2%>%
+  ggplot(aes(x=p_val_ks,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma, ncol=2)
+
+```
+
+W przypadku, gdy nasze X są losowane z rozkładu jednostajnego [0,200] w zasadzie możemy wyciągnąć te same wnioski, co w przypadku rozkładu [0,20]. Ponownie test Shapiro-Wilka w bardzo niewielu przypadkach odrzucił hipotezę H0, a test Kolomogorova-Smirnova w zasadzie w każdym przypadku przyjął H0. Rozkłady te również raczej nie zależą od sigmy oraz liczby N.
+
+
+## Tabelki z odsetkami odrzuceń hipotezy H0
+
+
+Shapiro-Wilk:
+
+```{r}
+
+df2%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_shap<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+
+
+```
+
+Nie widać większych różnic od wariantu z losowaniem X z rozkładu [0,20]. Ponownie nie widać zależności między odsetkiem odrzuceń, a wartością sigmy oraz liczby N.
+
+
+```{r}
+df2%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_ks<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+```
+Również bardzo podobne wyniki i wnioski takie jak w przypadku rozkładu [0,20].
+
+
+## Wykresy podsumowujące 
+
+```{r}
+
+new_df2<-df2%>%
+  pivot_longer(cols=c("p_val_shap","p_val_ks"),names_to = "test",values_to = "pvalue")
+#zamieniam testy na kolumny
+
+new_df2%>%
+  ggplot(aes(x=pvalue,color=test,fill=test))+
+  geom_density(alpha=0.3)+
+  facet_grid(n~sigma)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+new_df2%>%
+  ggplot(aes(x=factor(n),y=pvalue,color=test))+
+  geom_boxplot()+
+  facet_wrap(~sigma)
+```
+
+# Część 3
+
+
+*W części trzeciej nasze X są losowane z rozkładu jednostajnego [0,20] a E z rozkładu T-studenta o 3 stopniach swobody, który został przeskalowany tak by uwzględniał naszą sigmę.*
+
+```{r}
+### czesc 3
+df3 <- data.frame("n" = 0, "sigma" = 0,"p_val_shap"=0,"p_val_ks"=0)
+
+for(n in ns)
+{
+  for(sig in sigmas)
+  {
+    for(i in 1:1000)
+    {
+      x<-runif(n,0,20)
+      epsilon<-rt.scaled(n,3,mean = 0,sd=sig)
+      y<-x*b + a + epsilon
+      model<-lm(y~x)
+      cof<-data.frame(x=x,y=y)
+      #cof$y_model=cof$x*model$coefficients[2] + model$coefficients[1]
+      #cof$reszty=cof$y-cof$y_model
+      cof$reszty= cof$y - (cof$x*model$coefficients[2] + model$coefficients[1])
+      shap = shapiro.test(cof$reszty)$p.value
+      ks = ks.test(cof$reszty, "pnorm",mean=mean(cof$reszty),sd=sd(cof$reszty))$p.value
+      df3<-rbind(df3,c(n,sig,shap,ks))
+    }
+  }
+}
+
+
+
+df3<-df3[-1,]
+rownames(df3)<-NULL
+
+
+df3%>%
+  ggplot(aes(x=p_val_shap,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma,ncol=2)+
+  labs(title = "Distribution of Shapiro-Wilk p-values by Sigma",
+       fill="N")+
+  ylim(0,4)+
+  xlab("p-value")+
+  ylab("density")
+
+df3%>%
+  ggplot(aes(x=p_val_ks,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma,ncol=2)+
+  labs(title = "Distribution of Kolomogrov-Smirnov p-values by Sigma",
+       fill="N")+
+  ylim(0,4)+
+  xlab("p-value")+
+  ylab("density")
+```
+
+W przypadku gdy E jest losowane z rozkładu t-studenta, *pojawiają się pewne zależności.* W przypadku obu testów widzimy, że hipoteza H0(reszty mają rozkład normalny) jest dużo częśćiej odrzucana, niż we wcześniejszych częściach. Dla Shapiro-Wilka widzimy załamanie dla n=100, a dla n=500, praktycznie zero przyjęć H0. Dla Kolmogorova-Smirnova, przy małym n, mamy podobną sytuację jak dla E z rozkładu normalnego, jednak ze wzrostem 'n', szala przechyla się na korzyść odrzucenia H0. Raczej zależność między gęstością, a sigmą jest niewielka.
+
+
+## Tabelki z odsetkami odrzuceń hipotezy H0
+
+
+Shapiro-Wilk:
+
+```{r}
+df3%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_shap<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+```
+
+
+
+Kolomogrov-Smirnov:
+
+```{r}
+df3%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_ks<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+
+```
+Potwierdza się to, co było widoczne na wykresach. *Wraz ze wzrostem liczby N rośnie odsetek odrzuceń hipotezy H0.* Dla największego 'n' niemalże 100% testów jest odrzucanych.
+
+## Wykresy podsumowujące 
+
+```{r}
+new_df3<-df3%>%
+  pivot_longer(cols=c("p_val_shap","p_val_ks"),names_to = "test",values_to = "pvalue")
+#zamieniam testy na kolumny
+
+new_df3%>%
+  ggplot(aes(x=pvalue,color=test,fill=test))+
+  geom_density(alpha=0.3)+
+  ylim(0,3)+
+  facet_grid(n~sigma)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+new_df3%>%
+  ggplot(aes(x=factor(n),y=pvalue,color=test))+
+  geom_boxplot()+
+  facet_wrap(~sigma,ncol=2)
+
+```
+
+
+# Cześć 4
+
+*W części trzeciej nasze X są losowane z rozkładu jednostajnego [0,200] a E z rozkładu T-studenta o 3 stopniach swobody, który został przeskalowany tak by uwzględniał naszą sigmę.*
+
+
+```{r}
+### czesc 3
+df4 <- data.frame("n" = 0, "sigma" = 0,"p_val_shap"=0,"p_val_ks"=0)
+for(n in ns)
+{
+  for(sig in sigmas)
+  {
+    for(i in 1:1000)
+    {
+      x<-runif(n,0,200)
+      epsilon<-rt.scaled(n,3,mean = 0,sd=sig)
+      y<-x*b + a + epsilon
+      model<-lm(y~x)
+      cof<-data.frame(x=x,y=y)
+      #cof$y_model=cof$x*model$coefficients[2] + model$coefficients[1]
+      #cof$reszty=cof$y-cof$y_model
+      cof$reszty= cof$y - (cof$x*model$coefficients[2] + model$coefficients[1])
+      shap = shapiro.test(cof$reszty)$p.value
+      ks = ks.test(cof$reszty, "pnorm",mean=mean(cof$reszty),sd=sd(cof$reszty))$p.value
+      df4<-rbind(df4,c(n,sig,shap,ks))
+    }
+  }
+}
+
+
+
+df4<-df4[-1,]
+rownames(df4)<-NULL
+
+
+
+
+df4%>%
+  ggplot(aes(x=p_val_shap,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma,ncol=2)+
+  labs(title = "Distribution of Shapiro-Wilk p-values by Sigma",
+       fill="N")+
+  ylim(0,3)+
+  xlab("p-value")+
+  ylab("density")
+
+df4%>%
+  ggplot(aes(x=p_val_ks,fill=factor(n)))+
+  geom_density(alpha=0.3)+
+  facet_wrap(~sigma,ncol=2)+
+  labs(title = "Distribution of Kolomogrov-Smirnov p-values by Sigma",
+       fill="N")+
+  ylim(0,3)+
+  xlab("p-value")+
+  ylab("density")
+
+```
+
+
+## Tabelki z odsetkami odrzuceń hipotezy H0
+
+
+Shapiro-Wilk:
+
+```{r}
+df4%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_shap<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+
+```
+
+
+
+Kolomogrov-Smirnov:
+
+```{r}
+df4%>%
+  group_by(n,sigma)%>%
+  summarize(m=mean(p_val_ks<0.05))%>%
+  pivot_wider(names_from = sigma, values_from = m)
+```
+
+## Wykresy podsumowujące 
+
+```{r}
+new_df4<-df4%>%
+  pivot_longer(cols=c("p_val_shap","p_val_ks"),names_to = "test",values_to = "pvalue")
+#zamieniam testy na kolumny
+
+new_df4%>%
+  ggplot(aes(x=pvalue,color=test,fill=test))+
+  geom_density(alpha=0.3)+
+  ylim(0,3)+
+  facet_grid(n~sigma)+
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
+
+new_df4%>%
+ggplot(aes(x=factor(n),y=pvalue,color=test))+
+  geom_boxplot()+
+  facet_wrap(~sigma)
+
+
+```
+
+*Wyniki adekwatne do tych w części trzeciej.*
