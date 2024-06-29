@@ -1,0 +1,381 @@
+powiat,samochodyZielone,gęstość,ludnosc,przystanki,odsetek65,cenyMieszkan,parki,ogółem,rodzaj powiat
+Powiat m. st. Warszawa,127818,3600.1,1861975,4275,19.7,705792,422,"8,540.11",grodzki
+Powiat m. Wrocław,70523,2302.1,674079,1661,20.1,496788,648,"7,391.95",grodzki
+Powiat m. Gdynia,37405,1796.4,242874,639,23,579264,94,"6,985.73",grodzki
+Powiat m. Kraków,37067,2457.6,803282,1886,19.5,540942,773,"8,157.43",grodzki
+Powiat m. Poznań,21109,2066.8,541316,1407,21,456802,171,"7,362.74",grodzki
+Powiat jasielski,20454,131.9,109582,803,18.8,221363,24,"5,453.40",ziemski
+Powiat m. Gdańsk,19224,1829.3,486345,1243,20.4,521749,220,"7,876.68",grodzki
+Powiat tarnowski,17316,140,197717,1099,16.3,269387,25,"5,010.43",ziemski
+Powiat m. Łódź,15904,2245.3,658444,2092,24.9,328536,125,"6,629.23",grodzki
+Powiat m. Katowice,15753,1700.9,280190,725,22.9,328992,100,"8,017.49",grodzki
+Powiat nowotarski,13615,128.9,190143,695,16.1,380199,26,"5,168.93",ziemski
+Powiat dębicki,11842,171,132873,676,17.2,238276,21,"5,507.67",ziemski
+Powiat sandomierski,11358,107.4,72616,816,22.2,270126,17,"5,954.75",ziemski
+Powiat warszawski zachodni,9915,249.6,133217,517,16.9,525265,60,"7,077.31",ziemski
+Powiat m. Szczecin,9847,1302.5,391566,1251,22.3,523240,180,"6,943.84",grodzki
+Powiat tczewski,9747,160.3,111755,516,17.6,278821,162,"6,105.39",ziemski
+Powiat nowosądecki,9561,138.7,214933,1163,14.1,340762,76,"5,134.07",ziemski
+Powiat m. Bydgoszcz,9185,1875.6,330038,998,23.4,323203,158,"6,435.59",grodzki
+Powiat gdański,9015,163.7,129983,537,13.5,404495,129,"6,466.20",ziemski
+Powiat m. Lublin,8810,2246.5,331243,772,21.4,404218,83,"6,402.56",grodzki
+Powiat poznański,8604,233,442680,2000,14,391858,367,"5,737.99",ziemski
+Powiat brzeski,8520,155.5,91823,721,16.8,263072,9,"5,127.71",ziemski
+Powiat krośnieński,8417,110,109122,699,18.2,154009,63,"4,841.46",ziemski
+Powiat sanocki,8155,78.1,90294,539,19.8,272530,57,"5,266.08",ziemski
+Powiat bocheński,8061,164.7,106878,821,16.7,271989,44,"5,642.88",ziemski
+Powiat m. Tarnów,7969,1436.5,103960,372,23.3,284042,71,"6,721.47",grodzki
+Powiat kartuski,7457,135.6,151934,748,12.4,392693,30,"5,651.36",ziemski
+Powiat m. Białystok,7451,2865,292600,694,19.3,337687,36,"6,183.98",grodzki
+Powiat m. Sopot,7325,1859.2,32276,101,28.9,976572,37,"7,701.83",grodzki
+Powiat wejherowski,7161,176.6,227406,941,14.7,345503,67,"5,557.82",ziemski
+Powiat wołomiński,7064,286.7,273411,775,14.3,474156,56,"6,065.79",ziemski
+Powiat dąbrowski,6725,109,57809,227,17.2,196873,13,"5,271.12",ziemski
+Powiat m. Kielce,6276,1677,183885,599,23.9,356918,16,"6,185.40",grodzki
+Powiat m. Elbląg,6114,1422.8,113567,368,22,291850,28,"5,900.22",grodzki
+Powiat piaseczyński,5905,341.6,212129,830,15.6,526069,61,"6,499.96",ziemski
+Powiat pruszkowski,5563,722.6,178037,591,18.4,479699,106,"7,516.43",ziemski
+Powiat m. Toruń,5498,1691.1,195690,719,21.7,371110,38,"6,450.47",grodzki
+Powiat m. Opole,5225,848.5,126458,477,22.1,367803,19,"6,560.39",grodzki
+Powiat krakowski,5182,244,300289,1691,16.5,461690,127,"6,385.62",ziemski
+Powiat leski,5141,30.6,25565,172,19.8,185239,9,"5,831.15",ziemski
+Powiat m. Rzeszów,4992,1528.4,197181,644,18.4,354933,780,"6,508.96",grodzki
+Powiat m. Bielsko-Biała,4954,1340,166765,460,23,357152,147,"6,434.35",grodzki
+Powiat sztumski,4924,52.9,38678,284,17.7,160885,27,"5,597.89",ziemski
+Powiat legionowski,4722,333.4,130278,517,17.2,463340,66,"6,034.24",ziemski
+Powiat pucki,4517,156.5,90942,492,15.1,459292,141,"5,893.38",ziemski
+Powiat brzozowski,4463,117.9,63591,329,17.8,231304,6,"5,049.05",ziemski
+Powiat m. Zielona Góra,4449,500.5,139278,387,21.1,321137,27,"6,462.80",grodzki
+Powiat wrocławski,4405,163.5,182778,1028,12.7,423052,88,"7,161.33",ziemski
+Powiat bieszczadzki,4395,18.2,20777,168,18.7,208693,8,"5,747.22",ziemski
+Powiat ząbkowicki,4388,76.2,61087,364,21.9,177968,98,"5,615.48",ziemski
+Powiat m. Radom,4322,1769.7,197848,582,22.2,296984,123,"6,182.33",grodzki
+Powiat kielecki,3966,94.3,211774,2672,16.4,269277,60,"5,289.72",ziemski
+Powiat nakielski,3726,74.2,83148,496,17.6,206171,33,"5,907.85",ziemski
+Powiat m. Częstochowa,3618,1304,208282,793,24.6,302137,124,"6,018.76",grodzki
+Powiat m. Tychy,3556,1504.8,123105,413,22,322856,39,"6,236.50",grodzki
+Powiat m. Olsztyn,3554,1904.6,168212,439,21,367584,82,"6,506.02",grodzki
+Powiat m. Kalisz,3532,1354.5,93973,372,24,266913,193,"5,781.36",grodzki
+Powiat elbląski,3509,38.7,54615,523,17.5,181918,25,"5,206.08",ziemski
+Powiat malborski,3355,123.4,61012,288,19.3,232957,40,"5,340.19",ziemski
+Powiat lubelski,3323,97.2,163209,1573,16.6,381446,61,"5,115.88",ziemski
+Powiat kutnowski,3266,103.2,91563,750,22.6,248255,40,"5,800.64",ziemski
+Powiat płocki,3184,61.1,109735,854,17.1,235244,30,"5,772.84",ziemski
+Powiat nowodworski,3168,114.7,79719,398,18.8,298228,16,"7,534.84",ziemski
+Powiat starogardzki,3058,93.2,125437,524,16.4,269175,54,"6,430.22",ziemski
+Powiat grodziski,2873,284.6,104434,630,17.2,482012,41,"7,139.72",ziemski
+Powiat m. Gorzów Wielkopolski,2830,1358.2,116436,387,22.5,269617,151,"5,890.85",grodzki
+Powiat m. Płock,2769,1277.6,112483,385,22.7,262342,75,"7,898.47",grodzki
+Powiat otwocki,2762,205.6,126649,446,19.5,466830,18,"6,468.80",ziemski
+Powiat opolski,2679,78.7,120762,526,18.1,258594,32,"5,740.58",ziemski
+Powiat inowrocławski,2678,124,151925,1144,20.1,215821,106,"5,655.28",ziemski
+Powiat świdnicki,2587,204,151248,632,21.6,253368,170,"6,059.31",ziemski
+Powiat m. Koszalin,2553,1060,104239,329,23.9,400788,121,"6,054.77",grodzki
+Powiat ostrowski,2487,137,158914,867,18.7,234299,91,"5,499.39",ziemski
+Powiat białostocki,2485,52.5,156370,1483,17.3,268686,41,"5,597.60",ziemski
+Powiat lubiński,2439,145.3,103426,359,21.8,276118,86,"11,361.51",ziemski
+Powiat miński,2428,136.7,159034,1036,17.1,360159,53,"5,785.24",ziemski
+Powiat zgierski,2421,194.7,166537,829,21,254781,29,"6,024.38",ziemski
+Powiat m. Sosnowiec,2380,2075.2,189178,153,25.2,239819,47,"6,126.60",grodzki
+Powiat m. Siedlce,2312,2373.6,75623,256,20.4,329363,31,"6,234.01",grodzki
+Powiat m. Nowy Sącz,2308,1399.1,80587,734,19.7,299618,13,"5,478.44",grodzki
+Powiat rzeszowski,2278,152.7,174805,1275,15.7,307011,29,"5,684.10",ziemski
+Powiat żyrardowski,2265,141.6,75414,520,19.9,303792,43,"6,403.00",ziemski
+Powiat wodzisławski,2160,527,151133,328,19,182980,59,"5,478.76",ziemski
+Powiat m. Gliwice,2155,1277.4,171023,420,22.3,317474,242,"7,469.70",grodzki
+Powiat toruński,2128,92.3,113565,678,14.1,230607,43,"5,441.72",ziemski
+Powiat ostrowiecki,2122,164.3,101311,945,24.6,194525,34,"5,388.69",ziemski
+Powiat pabianicki,2104,242.4,119316,405,21.8,264971,19,"5,650.74",ziemski
+Powiat cieszyński,2038,240.4,175579,478,19.5,321897,132,"5,838.18",ziemski
+Powiat bielski,1975,362.1,165836,613,17.9,304464,51,"5,875.70",ziemski
+Powiat wielicki,1965,346,142044,609,14.9,399342,108,"6,201.22",ziemski
+Powiat wadowicki,1965,244.4,157855,732,17.2,305864,65,"5,385.08",ziemski
+Powiat żywiecki,1952,143.7,149439,655,18,279996,45,"6,015.37",ziemski
+Powiat częstochowski,1934,86.7,132009,1074,19.9,201181,29,"5,774.96",ziemski
+Powiat kraśnicki,1915,89.6,90085,689,22,219031,114,"5,139.37",ziemski
+Powiat m. Słupsk,1895,2001.5,86365,245,23.8,285427,21,"5,904.49",grodzki
+Powiat radomski,1868,98.8,151202,694,16.5,196566,33,"5,412.43",ziemski
+Powiat pilski,1859,103.7,131265,516,19.4,266369,59,"6,004.37",ziemski
+Powiat oświęcimski,1846,367.6,149304,641,20.1,276205,74,"5,899.89",ziemski
+Powiat m. Zabrze,1828,1932.7,155430,367,20.3,220003,298,"6,511.57",grodzki
+Powiat myślenicki,1803,192.5,129538,587,15.2,410279,32,"5,603.51",ziemski
+Powiat zawierciański,1801,112.4,112774,626,23.1,184254,162,"6,438.58",ziemski
+Powiat sieradzki,1799,75.4,112350,635,20.1,251384,87,"5,626.08",ziemski
+Powiat tarnogórski,1789,216.1,139221,453,19.7,275566,89,"6,218.12",ziemski
+Powiat m. Bytom,1761,2152.8,149576,297,20.6,178322,138,"6,303.49",grodzki
+Powiat m. Rybnik,1754,888.5,131744,368,19.5,254708,47,"6,135.40",grodzki
+Powiat bydgoski,1700,90,125436,702,14.9,363844,61,"5,793.56",ziemski
+Powiat będziński,1679,399.2,145429,834,22.6,245609,201,"5,671.96",ziemski
+Powiat ostrołęcki,1640,41.8,87503,837,15,320975,10,"5,661.05",ziemski
+Powiat sochaczewski,1637,113.4,83333,494,18.9,266584,9,"6,994.09",ziemski
+Powiat mikołowski,1573,427.8,99602,430,17.5,279952,44,"5,957.61",ziemski
+Powiat koniński,1564,81.7,128883,1088,16.1,206546,52,"4,988.03",ziemski
+Powiat olsztyński,1558,45.6,129555,1023,16.1,301877,68,"5,865.11",ziemski
+Powiat rypiński,1555,70.6,41404,303,18.9,188346,23,"5,140.39",ziemski
+Powiat oleśnicki,1534,101.5,106481,479,18.6,276398,109,"5,762.83",ziemski
+Powiat limanowski,1531,138.3,131549,644,14.1,222746,27,"5,183.78",ziemski
+Powiat radomszczański,1513,74.5,107575,782,21.2,246872,50,"5,333.33",ziemski
+Powiat ostródzki,1506,56.5,99744,443,18.8,238923,102,"5,403.55",ziemski
+Powiat nyski,1487,105.7,129353,753,21.6,212040,99,"5,717.73",ziemski
+Powiat grójecki,1465,76.8,97395,535,19.5,271451,29,"6,247.81",ziemski
+Powiat m. Ruda Śląska,1460,1694.1,131532,270,19.5,192578,96,"6,006.82",grodzki
+Powiat bialski,1453,38.3,105530,681,18.4,205622,30,"5,288.19",ziemski
+Powiat mielecki,1449,151.4,133320,607,18.3,296402,32,"5,845.43",ziemski
+Powiat braniewski,1448,31.4,37851,213,18.6,155873,24,"5,368.32",ziemski
+Powiat m. Włocławek,1448,1199.9,102102,301,24,274682,32,"5,892.16",grodzki
+Powiat gliwicki,1406,170.3,113223,448,18.3,229369,122,"6,067.07",ziemski
+Powiat lubliniecki,1405,91.4,75157,274,18.1,250157,125,"5,685.44",ziemski
+Powiat m. Mysłowice,1405,1091,71643,229,18.6,244540,73,"5,754.97",grodzki
+Powiat m. Leszno,1385,1903.4,60642,197,21.9,295361,43,"5,831.34",grodzki
+Powiat lubartowski,1383,65.6,84578,699,19.3,285681,57,"5,250.01",ziemski
+Powiat garwoliński,1370,82.2,105620,707,16.9,285065,49,"5,700.38",ziemski
+Powiat słupski,1367,41.6,96231,657,17.2,247645,151,"5,628.96",ziemski
+Powiat sławieński,1367,51.2,53384,312,19.6,398525,52,"5,260.40",ziemski
+Powiat puławski,1359,115.6,107914,671,23,332868,67,"6,254.05",ziemski
+Powiat olkuski,1358,172.8,106843,719,22.1,266839,34,"5,894.22",ziemski
+Powiat kwidzyński,1352,96.6,80636,642,17,226159,99,"5,839.35",ziemski
+Powiat policki,1324,127.8,84924,339,15.5,417507,98,"6,622.81",ziemski
+Powiat chrzanowski,1322,323.7,119719,570,21.6,238515,201,"6,020.61",ziemski
+Powiat żniński,1313,69,67936,515,19.3,200242,44,"5,169.82",ziemski
+Powiat kłodzki,1283,90.5,148681,577,23.2,220737,112,"5,670.31",ziemski
+Powiat m. Konin,1276,827.6,68112,263,25,253069,258,"5,913.95",grodzki
+Powiat brzeski,1265,99,86730,403,20,232829,28,"5,723.46",ziemski
+Powiat m. Jastrzębie-Zdrój,1254,974.2,83139,201,21.3,182170,29,0.00,grodzki
+Powiat ełcki,1250,79.6,88621,417,16.9,288258,25,"5,238.03",ziemski
+Powiat m. Chorzów,1250,3058.6,101914,184,20.5,268258,186,"5,954.04",grodzki
+Powiat m. Dąbrowa Górnicza,1242,608.1,114765,204,24,265746,56,"7,271.87",grodzki
+Powiat międzyrzecki,1227,39.9,55357,165,19.9,203001,62,"5,695.99",ziemski
+Powiat suski,1218,121.2,83127,400,17.1,241350,9,"5,555.61",ziemski
+Powiat pszczyński,1215,235.4,110958,471,15.4,278954,32,"5,980.40",ziemski
+Powiat myśliborski,1201,53,62668,160,20.1,225406,95,"5,671.63",ziemski
+Powiat kłobucki,1201,92.8,82451,642,19.5,270315,21,"5,132.42",ziemski
+Powiat jarosławski,1192,113.2,116458,591,18.5,223729,20,"5,308.03",ziemski
+Powiat krotoszyński,1173,105.6,75317,397,18,214872,78,"4,772.92",ziemski
+Powiat gnieźnieński,1154,113,141748,846,18.6,254333,125,"5,631.02",ziemski
+Powiat gorzowski,1149,60.5,73480,334,15.8,277246,52,"6,162.20",ziemski
+Powiat zduńskowolski,1138,172.7,63742,302,20.5,244665,18,"5,607.97",ziemski
+Powiat krośnieński,1133,38.2,53105,257,19.4,201310,58,"5,730.70",ziemski
+Powiat myszkowski,1110,142,68054,439,21.8,194914,30,"5,629.12",ziemski
+Powiat wyszkowski,1101,83.8,73562,318,17.2,277751,11,"5,551.98",ziemski
+Powiat iławski,1101,65.1,90218,501,17.7,245634,66,"5,080.82",ziemski
+Powiat siedlecki,1097,50.2,80492,1151,17.1,253286,11,"5,411.82",ziemski
+Powiat m. Legnica,1085,1652.9,93040,218,22.7,269990,50,"6,068.54",grodzki
+Powiat bełchatowski,1076,112.7,109035,810,18.5,238010,85,"8,140.22",ziemski
+Powiat nowomiejski,1069,60.8,42209,226,16.9,185674,16,"4,668.60",ziemski
+Powiat stalowowolski,1045,122.2,101637,498,21.1,272212,17,"5,817.58",ziemski
+Powiat radzyński,1043,57.5,55493,319,19,231380,12,"5,547.83",ziemski
+Powiat m. Ostrołęka,1043,1455.8,48712,171,21.4,274001,18,"6,673.91",grodzki
+Powiat łukowski,1029,72.8,101536,797,18.1,258245,18,"5,256.57",ziemski
+Powiat m. Łomża,1022,1840.5,60128,177,19.8,316361,55,"5,827.01",grodzki
+Powiat sierpecki,1010,57.1,48639,238,18.5,226090,28,"5,505.06",ziemski
+Powiat dzierżoniowski,1008,200.3,95863,369,23.1,156434,122,"5,723.65",ziemski
+Powiat kolski,1001,81.2,82104,788,19.9,193440,45,"5,976.51",ziemski
+Powiat m. Jaworzno,1001,574.5,87552,404,20,260187,65,"7,568.06",grodzki
+Powiat turecki,991,87.5,81377,557,18.1,222664,78,"5,049.40",ziemski
+Powiat tomaszowski,990,108.8,111439,628,21.4,267399,65,"5,478.29",ziemski
+Powiat buski,990,70.7,68470,1090,22.6,335624,37,"5,412.76",ziemski
+Powiat mławski,980,58.8,69521,518,18.2,238321,45,"5,385.65",ziemski
+Powiat brodnicki,976,75.1,78057,656,16.7,243130,76,"5,179.20",ziemski
+Powiat gostyniński,961,69.3,42633,256,20.9,242540,8,"5,806.09",ziemski
+Powiat krapkowicki,959,135.7,59963,179,18.9,231662,55,"6,424.68",ziemski
+Powiat łódzki wschodni,957,148.8,74361,407,18.8,361893,31,"5,475.31",ziemski
+Powiat łomżyński,949,36.7,49711,410,16.7,220196,7,"6,087.64",ziemski
+Powiat jędrzejowski,947,65.1,81786,1182,21.4,212323,52,"5,829.63",ziemski
+Powiat stargardzki,941,78.4,119190,635,19.6,256075,80,"5,605.44",ziemski
+Powiat gorlicki,941,109.5,105782,689,18.1,232682,8,"5,027.39",ziemski
+Powiat łaski,940,79.2,48992,266,20.5,217478,22,"5,241.99",ziemski
+Powiat świecki,935,64.7,95359,756,18.2,226112,81,"5,795.79",ziemski
+Powiat zielonogórski,934,55.5,74967,339,18.3,195004,91,"6,162.35",ziemski
+Powiat kędzierzyńsko-kozielski,930,139.2,87011,455,21,182161,72,"6,760.49",ziemski
+Powiat koszaliński,925,40.1,66364,426,17.2,375120,50,"5,601.77",ziemski
+Powiat kaliski,920,71.1,82503,659,17.5,260026,26,"5,201.09",ziemski
+Powiat starachowicki,919,161.5,84514,806,23.1,206006,33,"5,730.06",ziemski
+Powiat oleski,910,63.3,61662,443,19.8,195288,13,"5,527.82",ziemski
+Powiat m. Biała Podlaska,908,1108.7,54768,198,20,238097,14,"5,691.80",grodzki
+Powiat bolesławiecki,907,67.5,87922,424,19.6,248481,67,"6,181.60",ziemski
+Powiat głogowski,902,193.3,85689,387,21.2,263513,98,"5,856.76",ziemski
+Powiat żarski,900,66,91897,363,19.6,177920,82,"6,172.02",ziemski
+Powiat wieluński,900,79,73140,541,20.5,290097,29,"5,497.22",ziemski
+Powiat chojnicki,900,70.5,96218,556,17.2,263520,153,"5,433.86",ziemski
+Powiat ciechanowski,894,80.8,85627,567,19.7,269663,15,"6,213.79",ziemski
+Powiat oławski,892,147.5,77300,376,19.4,317267,71,"6,030.47",ziemski
+Powiat trzebnicki,883,85.2,87287,426,18,338313,140,"5,852.88",ziemski
+Powiat zamojski,878,54.2,101388,988,20,182118,15,"4,926.90",ziemski
+Powiat włocławski,875,56.1,82599,812,18.6,189718,33,"5,289.63",ziemski
+Powiat tatrzański,860,141.1,66566,432,18.1,742870,11,"5,519.76",ziemski
+Powiat pleszewski,856,86.3,61523,321,18.4,237181,96,"5,559.50",ziemski
+Powiat m. Żory,855,956.3,61817,180,19.9,316920,50,"5,747.61",grodzki
+Powiat wysokomazowiecki,854,41.8,53842,472,19.6,289805,23,"6,070.52",ziemski
+Powiat m. Zamość,852,1943.4,58942,185,22.5,302644,28,"5,875.74",grodzki
+Powiat wałbrzyski,849,123.5,53115,264,21.5,142251,95,"5,431.27",ziemski
+Powiat świdnicki,843,148.6,69586,434,21.9,315497,213,"6,162.15",ziemski
+Powiat jarociński,842,119,70037,446,18.1,241373,29,"5,391.40",ziemski
+Powiat goleniowski,841,50.4,81486,448,18.4,231103,143,"5,991.11",ziemski
+Powiat bartoszycki,834,40.7,53220,303,19.9,134437,126,"5,411.23",ziemski
+Powiat raciborski,830,183.9,99974,429,19.3,222366,111,"6,823.09",ziemski
+Powiat średzki,829,96.1,59847,370,16.5,265602,41,"6,078.30",ziemski
+Powiat kościerski,827,62,72227,261,16,278272,47,"5,458.75",ziemski
+Powiat jaworski,824,81.9,47584,244,21,211948,52,"6,142.84",ziemski
+Powiat rybnicki,817,343.4,76816,209,16.7,178525,27,"5,660.84",ziemski
+Powiat węgrowski,816,51,62271,267,20.2,223268,18,"5,786.65",ziemski
+Powiat makowski,816,39.6,42109,305,19.8,190090,10,"5,493.65",ziemski
+Powiat szamotulski,815,81.9,91649,369,17.2,280201,71,"6,309.72",ziemski
+Powiat m. Piotrków Trybunalski,808,1000.4,67264,260,23.2,295095,23,"5,465.30",grodzki
+Powiat przasnyski,801,40.5,49408,297,18.1,235836,37,"5,756.31",ziemski
+Powiat staszowski,800,74.6,69001,1011,20.7,197915,18,"5,856.73",ziemski
+Powiat kołobrzeski,797,105.9,77087,433,21.9,422288,202,"5,585.13",ziemski
+Powiat piotrkowski,787,63.4,90519,712,18.4,200285,15,"5,278.96",ziemski
+Powiat nowotomyski,773,74.3,75182,161,16.8,256893,116,"5,753.37",ziemski
+Powiat włodawski,764,28.5,35802,326,21,145700,33,"5,234.17",ziemski
+Powiat sokólski,764,30.2,62063,406,20.9,227694,20,"5,506.16",ziemski
+Powiat skarżyski,759,174.7,69087,491,25.1,212224,26,"5,704.16",ziemski
+Powiat zgorzelecki,758,102.4,85898,283,20.9,212395,98,"5,980.91",ziemski
+Powiat m. Siemianowice Śląskie,758,2504.6,63892,136,21.8,248156,48,"5,955.67",grodzki
+Powiat m. Przemyśl,755,1230.3,56802,240,23.3,218785,11,"5,454.18",grodzki
+Powiat szczecinecki,750,41.5,73308,329,21.1,221791,59,"5,799.80",ziemski
+Powiat gostyński,748,91.2,73899,304,17.3,253042,124,"5,738.30",ziemski
+Powiat opatowski,746,53.7,48894,995,21.9,165574,13,"5,106.84",ziemski
+Powiat bytowski,744,35,76715,572,16.6,227491,73,"5,961.47",ziemski
+Powiat płoński,743,61.2,84387,414,19.2,229772,25,"5,660.12",ziemski
+Powiat nowosolski,741,107.2,82619,326,20.5,194370,89,"5,810.07",ziemski
+Powiat rycki,740,84.7,52021,299,21.3,227023,10,"5,359.49",ziemski
+Powiat polkowicki,738,78.6,61308,333,17.2,197690,30,"6,861.21",ziemski
+Powiat obornicki,738,83,58988,277,17,267299,18,"5,821.90",ziemski
+Powiat siemiatycki,737,28.2,41114,417,22.1,218416,10,"5,439.21",ziemski
+Powiat kozienicki,731,62.8,57523,231,21.5,225484,23,"7,274.27",ziemski
+Powiat ostrowski,724,56.6,68881,413,20,231454,36,"5,729.10",ziemski
+Powiat gryfiński,722,41.5,77567,473,19.3,236286,114,"5,878.75",ziemski
+Powiat m. Suwałki,717,1046,68525,267,17.2,297811,45,"5,547.59",grodzki
+Powiat opoczyński,710,69.5,72310,668,19.5,244617,36,"5,462.96",ziemski
+Powiat słubicki,708,46,45965,187,16.9,241833,40,"5,920.34",ziemski
+Powiat bielski,705,36.9,51151,372,22.8,278157,33,"6,839.68",ziemski
+Powiat czarnkowsko-trzcianecki,700,46.5,84020,432,18.4,223476,44,"5,808.58",ziemski
+Powiat chełmski,698,39.4,74358,778,18.7,144000,35,"5,126.89",ziemski
+Powiat legnicki,695,74,55032,339,18.8,233641,52,"6,116.35",ziemski
+Powiat m. Grudziądz,693,1548.6,89450,338,21.9,209579,84,"5,299.09",grodzki
+Powiat tomaszowski,692,52.4,77963,441,21,229920,46,"5,100.78",ziemski
+Powiat łęczyński,691,87.8,55926,338,16.3,305827,33,"8,543.50",ziemski
+Powiat grajewski,678,46.2,44724,380,18.5,202596,14,"6,144.83",ziemski
+Powiat słupecki,677,68.7,57554,445,18.7,220863,57,"5,450.67",ziemski
+Powiat biłgorajski,677,57.7,97055,568,19.8,254731,20,"5,109.51",ziemski
+Powiat działdowski,666,64.9,61917,307,17.9,195169,49,"5,273.63",ziemski
+Powiat średzki,660,83.1,58508,374,16.3,327550,59,"6,315.50",ziemski
+Powiat łowicki,659,75.5,74606,335,20.9,268747,32,"5,395.60",ziemski
+Powiat łańcucki,658,178.8,80802,364,17.5,248132,36,"5,344.40",ziemski
+Powiat ropczycko-sędziszowski,654,135.1,74066,245,16.3,253757,7,"5,343.80",ziemski
+Powiat kluczborski,654,72.4,61714,410,20,186740,38,"5,681.23",ziemski
+Powiat lipnowski,652,62,63051,449,17.1,172971,25,"4,910.26",ziemski
+Powiat ostrzeszowski,651,70.7,54638,252,17.7,263071,27,"5,479.65",ziemski
+Powiat wrzesiński,650,111.1,78176,369,17.4,263239,77,"5,758.50",ziemski
+Powiat przeworski,650,109,76094,268,18,177875,26,"5,110.08",ziemski
+Powiat lęborski,641,90.3,63900,334,18.3,248271,82,"5,918.89",ziemski
+Powiat kępiński,640,92.2,56071,247,17.1,257819,49,"4,687.66",ziemski
+Powiat bieruńsko-lędziński,635,376.7,59568,254,16.1,214574,96,"5,620.67",ziemski
+Powiat poddębicki,633,45,39621,377,21.1,254146,24,"7,377.24",ziemski
+Powiat hajnowski,633,24.3,39427,492,26.5,191304,8,"6,773.76",ziemski
+Powiat szczycieński,631,34.6,66859,280,17.9,239091,26,"5,503.25",ziemski
+Powiat rawski,624,71.8,46415,250,20,281661,32,"5,550.93",ziemski
+Powiat mrągowski,623,45,47861,198,18.3,328921,42,"5,298.87",ziemski
+Powiat głubczycki,623,64,43065,182,21.8,133076,43,"5,978.21",ziemski
+Powiat pułtuski,622,61.1,50557,253,18.3,211661,8,"5,503.60",ziemski
+Powiat konecki,621,65.4,74558,899,23.2,230317,53,"5,493.64",ziemski
+Powiat gryficki,621,55.8,56961,199,19.5,512673,148,"5,364.42",ziemski
+Powiat m. Jelenia Góra,619,693.4,75794,242,26.3,280995,96,"6,282.14",grodzki
+Powiat żagański,618,65.7,74390,297,20.2,147584,90,"5,468.20",ziemski
+Powiat białobrzeski,617,51,32614,149,17.8,238713,4,"5,563.78",ziemski
+Powiat golubsko-dobrzyński,613,71.1,43547,252,17.7,186188,34,"6,015.41",ziemski
+Powiat kamiennogórski,610,103.1,40786,149,21.5,137175,38,"5,550.65",ziemski
+Powiat drawski,610,30.6,53960,253,20,160650,110,"5,323.36",ziemski
+Powiat prudnicki,609,90.9,51910,275,20.3,128985,66,"5,463.74",ziemski
+Powiat kolbuszowski,605,79.4,61389,222,16.4,246370,3,"5,082.42",ziemski
+Powiat mogileński,604,65,43853,282,19.2,197631,6,"5,482.81",ziemski
+Powiat zambrowski,595,56.7,41550,236,18.5,254777,18,"5,601.17",ziemski
+Powiat wolsztyński,594,83.5,56743,165,16.7,275036,91,"5,635.22",ziemski
+Powiat chełmiński,592,94,49562,251,17.9,168729,18,"5,339.74",ziemski
+Powiat m. Wałbrzych od 2013,586,1202.8,101857,300,25.1,177378,79,"6,731.24",grodzki
+Powiat kościański,581,107.1,77404,205,18,236378,75,"5,931.56",ziemski
+Powiat przemyski,576,58.9,71393,439,16.9,163538,3,"5,052.75",ziemski
+Powiat strzelecki,572,96.3,71658,298,18.3,195718,52,"6,081.35",ziemski
+Powiat leszczyński,565,73.9,59531,221,14.6,287914,75,"6,002.93",ziemski
+Powiat opolski,559,69.3,56163,374,21,207924,25,"5,132.54",ziemski
+Powiat sokołowski,558,44.7,50618,339,21.5,239701,25,"5,459.15",ziemski
+Powiat miechowski,534,69.5,46998,569,22.3,292875,36,"5,415.22",ziemski
+Powiat wągrowiecki,531,66.4,69039,578,17,237207,39,"5,319.73",ziemski
+Powiat śremski,530,106.5,61115,270,17.1,273021,80,"5,376.46",ziemski
+Powiat pajęczański,530,61,49064,281,20.3,285046,9,"5,467.17",ziemski
+Powiat kętrzyński,529,47.6,57792,262,20.8,149288,66,"5,244.28",ziemski
+Powiat giżycki,525,48.2,54016,237,19.7,300119,19,"5,498.08",ziemski
+Powiat m. Chełm,521,1642.1,57933,186,23.6,239708,32,"5,619.61",grodzki
+Powiat rawicki,520,106.4,58867,285,18,242385,51,"5,294.49",ziemski
+Powiat białogardzki,515,53,44771,233,19.5,174494,75,"5,746.07",ziemski
+Powiat m. Świnoujście,514,194.8,39368,158,24.3,"143,912",22,"6,061.29",grodzki
+Powiat złotowski,512,40.7,67589,329,17.3,210399,49,"4,964.93",ziemski
+Powiat wąbrzeski,507,65.4,32756,358,18.6,152626,10,"5,653.97",ziemski
+Powiat m. Krosno,506,991.3,44322,266,23.4,275870,12,"5,420.94",grodzki
+Powiat proszowicki,506,101.9,42268,265,19.7,233239,5,"5,577.77",ziemski
+Powiat krasnostawski,500,57.9,59754,621,23.8,229117,28,"5,376.97",ziemski
+Powiat grudziądzki,500,53.7,39162,581,16.1,174755,20,"5,523.49",ziemski
+Powiat grodziski,498,80.2,51626,127,15.4,214960,47,"5,493.60",ziemski
+Powiat wieruszowski,491,72,41583,207,18.4,304286,33,"5,075.66",ziemski
+Powiat chodzieski,490,66.4,45476,298,18.7,217041,8,"5,542.99",ziemski
+Powiat żuromiński,482,44.5,35882,235,19.2,200948,17,"5,390.60",ziemski
+Powiat łęczycki,481,60.8,47002,236,21.6,192790,22,"6,026.04",ziemski
+Powiat m. Piekary Śląskie,476,1308,52137,108,21.3,203508,25,"6,550.47",grodzki
+Powiat kamieński,471,44.1,44449,182,22.1,455803,35,"5,326.89",ziemski
+Powiat nowodworski,470,50.2,33815,241,18.6,265521,53,"5,749.44",ziemski
+Powiat karkonoski,470,97.3,61016,404,21.7,434681,77,"5,627.61",ziemski
+Powiat m. Skierniewice,463,1316.8,45560,185,22.1,267731,15,"5,797.49",grodzki
+Powiat włoszczowski,462,47.8,43291,679,20.9,217199,14,"5,982.40",ziemski
+Powiat moniecki,462,27.3,37732,356,19.4,176947,26,"5,531.47",ziemski
+Powiat wołowski,457,67.8,45728,231,20.1,224692,41,"7,909.26",ziemski
+Powiat aleksandrowski,457,113.2,53736,231,20.3,236601,35,"5,256.91",ziemski
+Powiat świebodziński,455,57.9,54268,170,18.9,243513,50,"6,154.27",ziemski
+Powiat lwówecki,448,60.8,43157,208,21.2,126995,24,"5,580.03",ziemski
+Powiat augustowski,448,33.1,54917,265,19.4,341764,44,"6,050.82",ziemski
+Powiat strzyżowski,443,118.2,59514,364,17.8,192087,7,"4,831.84",ziemski
+Powiat lidzbarski,443,41.7,38539,358,19.7,185960,68,"5,155.53",ziemski
+Powiat wałecki,438,35.6,50388,276,19.9,207312,105,"5,886.05",ziemski
+Powiat lubański,434,121.1,51886,253,21.7,314569,25,"5,516.56",ziemski
+Powiat namysłowski,426,56.4,42155,169,19.4,207321,40,"5,829.33",ziemski
+Powiat świdwiński,421,39.9,43577,170,20.8,143912,42,"5,239.03",ziemski
+Powiat złotoryjski,415,71.1,40929,237,20.6,177418,28,"6,235.18",ziemski
+Powiat niżański,415,81.5,64057,317,17.6,197423,10,"5,022.68",ziemski
+Powiat człuchowski,413,34,53558,316,18.4,171893,101,"5,613.05",ziemski
+Powiat przysuski,409,48.7,39031,209,20.3,187882,42,"5,564.37",ziemski
+Powiat lubaczowski,409,40.5,52983,246,18.9,151828,12,"5,116.12",ziemski
+Powiat piski,404,29.6,52537,179,18,188298,28,"5,580.91",ziemski
+Powiat strzeliński,402,67.5,41990,438,19.9,239562,78,"6,320.71",ziemski
+Powiat m. Świętochłowice,398,3443.2,45795,82,20.6,267859,31,"5,653.41",grodzki
+Powiat pińczowski,392,60.4,37011,638,23.1,191338,7,"5,811.36",ziemski
+Powiat leżajski,391,114.8,67015,257,18,169835,20,"5,374.02",ziemski
+Powiat szydłowiecki,387,83.7,37791,278,18.6,225098,25,"5,271.91",ziemski
+Powiat hrubieszowski,387,45.3,57594,380,22.4,169783,22,"5,487.37",ziemski
+Powiat kolneński,386,38.2,35921,146,17.1,219709,5,"5,471.56",ziemski
+Powiat janowski,385,49.3,43188,204,20.2,255190,10,"5,574.12",ziemski
+Powiat tarnobrzeski,383,98.5,51300,222,19,264166,24,"5,746.03",ziemski
+Powiat m. Tarnobrzeg,381,517,44156,170,22.9,266422,17,"5,478.64",grodzki
+Powiat nidzicki,379,31.9,30666,147,18.3,205686,98,"5,130.03",ziemski
+Powiat tucholski,375,43.8,47109,297,17.9,193782,25,"5,164.79",ziemski
+Powiat strzelecko-drezdenecki,374,37.7,47002,195,19.7,218568,35,"5,727.06",ziemski
+Powiat radziejowski,373,62.9,38173,210,20.1,200724,27,"5,248.74",ziemski
+Powiat pyrzycki,368,50.7,36785,163,20.4,161650,60,"5,694.42",ziemski
+Powiat parczewski,364,34.2,32608,252,20.6,217601,8,"5,399.11",ziemski
+Powiat skierniewicki,363,50.2,37799,152,18.5,0,4,"5,408.39",ziemski
+Powiat międzychodzki,363,48.6,35769,190,18.9,203723,34,"5,620.61",ziemski
+Powiat łosicki,348,37.5,28941,279,20.8,163356,20,"5,362.58",ziemski
+Powiat choszczeński,324,33.8,44818,124,20.3,168183,109,"5,575.63",ziemski
+Powiat milicki,321,50.1,35826,130,19.7,261442,18,"5,313.76",ziemski
+Powiat wschowski,309,60,37441,106,18.7,190335,69,"5,453.09",ziemski
+Powiat zwoleński,302,60.3,34535,191,18.9,192275,4,"5,638.92",ziemski
+Powiat sulęciński,297,28.7,33771,113,18.1,193699,49,"5,335.40",ziemski
+Powiat sępoleński,295,49.6,39218,235,18.2,178988,16,"5,229.53",ziemski
+Powiat lipski,290,43,31839,471,22.3,258018,9,"5,595.82",ziemski
+Powiat łobeski,284,31.7,33762,220,20.6,126152,90,"5,630.58",ziemski
+Powiat kazimierski,280,75.7,31966,566,22.4,175394,8,"5,097.28",ziemski
+Powiat olecki,276,36.9,32222,205,18.3,190493,32,"5,397.85",ziemski
+Powiat górowski,272,44.3,32738,229,19.8,132894,41,"5,423.11",ziemski
+Powiat sejneński,251,22,18802,102,20.6,187783,6,"6,308.40",ziemski
+Powiat suwalski,243,26.6,34778,323,17.3,147800,3,"5,323.60",ziemski
+Powiat węgorzewski,209,30.4,21062,128,21.2,244061,9,"5,338.94",ziemski
+Powiat brzeziński,205,84.4,30246,160,20.1,163658,7,"5,262.32",ziemski
+Powiat gołdapski,182,32.6,25147,201,17.7,190020,9,"5,136.51",ziemski

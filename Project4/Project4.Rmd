@@ -1,0 +1,865 @@
+---
+title: "Projekt 4"
+author: 'Kacper Prorok, Popkiewicz Szymon'
+date: "2024-04-25"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,fig.height = 4, fig.width = 6)
+```
+
+```{r message=FALSE, warning=FALSE}
+library(corrplot)
+library(readxl)
+library(dplyr)
+library(corrplot)
+library(ggplot2)
+library(kableExtra)
+library(psych)
+library(moments)
+library(gridExtra)
+library(patchwork)
+
+data<-read.csv("danee.csv")
+colnames(data)[10]<-"rodzaj_powiat"
+data$cenyMieszkan<-as.numeric(data$cenyMieszkan)
+data$ogółem <- gsub(",", "", data$ogółem)
+data$ogółem<-as.numeric(data$ogółem)
+
+```
+
+
+# Opis problemu
+
+Badanym przez nas problemem jest ilość samochodów osobowych o napędzie „zielonym” w powiatach. Dane te w GUSie mają kategorię : Pojazdy według rodzajów stosowanego paliwa – pozostałe. Na początku do przewidywania ilości bierzemy pod uwagę takie zmienne objaśniające jak: ludność na 1km2, ludność powiatu, przystanki autobusowe, odsetek osób w wieku powyżej 65 lat, ceny mieszkań, liczba parków spacerowo-wypoczynkowych oraz dochody na 1 mieszkańca. Należy również wziąć pod uwagę, że liczba samochodów elektrycznych będzie zależeć od aktualnego trendu globalnego oraz od wielu innych czynników takich jak liczba ładowarek (brak danych w GUS), bliskość dużych miast oraz polityki powiatu, co może dosyć utrudniać działanie naszego modelu.
+
+
+# Zmienna samochody zielone
+
+Naszą zmienną **objaśnianą** jest liczba samochodów o napędzie „elektrycznym” (mogą tam również wchodzić inne kategorie jak np.: napęd wodorowy). Zmienna jest typu numerycznego i oznacza ile takich samochodów (w sztukach) zostało zarejestrowanych w powiecie w 2022 roku. 
+
+```{r echo=FALSE}
+ggplot(data)+
+  geom_boxplot(aes(x=samochodyZielone))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="Rozkład zmiennej samochody zielone")+
+  theme_bw()
+
+data%>%
+ggplot()+
+  geom_boxplot(aes(x=samochodyZielone))+
+  labs(title="Rozkład zmiennej samochody zielone dla wszystkich powiatów")+
+  theme_bw()
+
+dane_okrojone<-data%>%filter(samochodyZielone<50000)
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(samochodyZielone),"odchylenie"=sd(samochodyZielone),"skośność"=skewness(samochodyZielone),"kurtoza"=kurtosis(samochodyZielone))
+razem<-data%>%summarize("średnia"=mean(samochodyZielone),"odchylenie"=sd(samochodyZielone),"skośność"=skewness(samochodyZielone),"kurtoza"=kurtosis(samochodyZielone))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+
+kable(t(razem),align="l",format="markdown",caption="Razem")
+```
+
+
+
+
+
+
+
+```{r}
+#data<-data%>%filter(samochodyZielone<30000)
+
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$samochodyZielone)/mean(data$samochodyZielone)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(samochodyZielone)/mean(samochodyZielone))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(samochodyZielone)/mean(samochodyZielone))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+```
+
+**W tym momencie do danych okrojonych o outlier'y, zapisujemy rekordy o ilości samochodów mniejszej niż 50 000. **
+
+# Zmienna ludność na 1 km2
+
+Pierwszą zmienną objaśniającą jest ludność na 1km2. Mówi nam ona ile osób przypada na 1km2 w powiecie w 2022 roku. Jest to zmienna typu numerycznego.
+
+```{r}
+ggplot(data)+
+  geom_boxplot(aes(x=gęstość))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="rozkład zmiennej ludność na 1 km2")
+
+data%>%
+ggplot()+
+  geom_boxplot(aes(x=gęstość))+
+  labs(title="rozkład zmiennej ludność na 1 km2 dla wszystkich powiatów")
+
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(gęstość),"odchylenie"=sd(gęstość),"skośność"=skewness(gęstość),"kurtoza"=kurtosis(gęstość))
+razem<-data%>%summarize("średnia"=mean(gęstość),"odchylenie"=sd(gęstość),"skośność"=skewness(gęstość),"kurtoza"=kurtosis(gęstość))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+
+kable(t(razem),align="l",format="markdown",caption="Razem")
+
+```
+
+
+
+
+```{r}
+ 
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$gęstość)/mean(data$gęstość)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(gęstość)/mean(gęstość))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(gęstość)/mean(gęstość))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+
+```
+
+
+# Zmienna ludność 
+
+Zmienna ludność mówi nam ile ludzi mieszkało w powiecie w 2022 roku. Zmienna typu numerycznego.
+
+```{r}
+ggplot(data)+
+  geom_boxplot(aes(x=`ludnosc`))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="rozkład zmiennej ludność")
+
+data%>%
+ggplot()+
+  geom_boxplot(aes(x=`ludnosc`))+
+  labs(title="rozkład zmiennej ludność dla wszystkich powiatów")
+
+dane_okrojone<-dane_okrojone%>%filter(ludnosc<1000000)
+
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(ludnosc),"odchylenie"=sd(ludnosc),"skośność"=skewness(ludnosc),"kurtoza"=kurtosis(ludnosc))
+razem<-data%>%summarize("średnia"=mean(ludnosc),"odchylenie"=sd(ludnosc),"skośność"=skewness(ludnosc),"kurtoza"=kurtosis(ludnosc))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+kable(t(razem),align="l",format="markdown",caption="Razem")
+
+```
+
+
+
+
+
+
+
+
+```{r}
+ 
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$ludnosc)/mean(data$ludnosc)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(ludnosc)/mean(ludnosc))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(ludnosc)/mean(ludnosc))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+
+```
+
+**Dane okrojone filtrujemy dla rekordów, z ludnością mniejszą niz 1 000 000.**
+
+# Zmienna przystanki autobusowe i tramwajowe
+
+Mówi nam ile przystanków komunikacji miejskiej występuje w powiecie w 2022 roku. Zmienna typu numerycznego.
+
+```{r}
+ggplot(data)+
+  geom_boxplot(aes(x=przystanki))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="rozkład zmiennej przystanki")
+
+data%>%
+ggplot()+
+  geom_boxplot(aes(x=przystanki))+
+  labs(title="rozkład zmiennej przystanki dla wszystkich powiatów")
+
+dane_okrojone<-dane_okrojone%>%filter(przystanki<2500)
+
+
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(przystanki),"odchylenie"=sd(przystanki),"skośność"=skewness(przystanki),"kurtoza"=kurtosis(przystanki))
+razem<-data%>%summarize("średnia"=mean(przystanki),"odchylenie"=sd(przystanki),"skośność"=skewness(przystanki),"kurtoza"=kurtosis(przystanki))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+cat("\n")
+kable(t(razem),align="l",format="markdown",caption="Razem")
+
+
+```
+
+
+
+
+
+
+
+```{r}
+ 
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$przystanki)/mean(data$przystanki)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(przystanki)/mean(przystanki))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(przystanki)/mean(przystanki))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+
+
+
+
+```
+
+
+
+**Filtrujemy o liczę przystanków mniejszą niż 2500.**
+
+
+# Zmienna odsetek osób w wieku >=65 lat
+
+Przedstawia odsetek osób w wieku równym lub powyżej 65 lat  w ogólnej populacji powiatu w 2022 roku. Zmienna ta będzie w przedziale od 0 do 1 i jest typu numerycznego
+
+
+```{r}
+ggplot(data)+
+  geom_boxplot(aes(x=odsetek65))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="rozkład zmiennej odsetek osób w wieku >=65 lat")
+
+data%>%
+ggplot()+
+  geom_boxplot(aes(x=odsetek65))+
+  labs(title="rozkład zmiennej odsetek osób w wieku >=65 lat dla wszystkich powiatów")
+
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(odsetek65),"odchylenie"=sd(odsetek65),"skośność"=skewness(odsetek65),"kurtoza"=kurtosis(odsetek65))
+razem<-data%>%summarize("średnia"=mean(odsetek65),"odchylenie"=sd(odsetek65),"skośność"=skewness(odsetek65),"kurtoza"=kurtosis(odsetek65))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+kable(t(razem),align="l",format="markdown",caption="Razem")
+
+```
+
+
+
+
+
+
+
+
+```{r}
+ 
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$odsetek65)/mean(data$odsetek65)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(odsetek65)/mean(odsetek65))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(odsetek65)/mean(odsetek65))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+
+
+
+```
+
+
+
+**Bez większych anomalii (na pewno w porównaniu do poprzednich zmiennych).**
+
+
+
+# Zmienna ceny mieszkań
+
+```{r warning=FALSE}
+ggplot(data)+
+  geom_boxplot(aes(x=cenyMieszkan))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="rozkład zmiennej ceny mieszkań")
+
+data%>%
+ggplot()+
+  geom_boxplot(aes(x=cenyMieszkan))+
+  labs(title="rozkład zmiennej ceny mieszkań dla wszystkich powiatów")
+
+dane_okrojone<-dane_okrojone%>%filter(cenyMieszkan>0)
+data<-data%>%filter(cenyMieszkan>0)
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(cenyMieszkan),"odchylenie"=sd(cenyMieszkan),"skośność"=skewness(cenyMieszkan),"kurtoza"=kurtosis(cenyMieszkan))
+
+razem<-data%>%summarize("średnia"=mean(cenyMieszkan),"odchylenie"=sd(cenyMieszkan),"skośność"=skewness(cenyMieszkan),"kurtoza"=kurtosis(cenyMieszkan))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+
+kable(t(razem),align="l",format="markdown",caption="Razem")
+
+
+
+```
+
+
+
+
+
+
+
+```{r}
+ 
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$cenyMieszkan)/mean(data$cenyMieszkan)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(cenyMieszkan)/mean(cenyMieszkan))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(cenyMieszkan)/mean(cenyMieszkan))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+
+```
+
+
+**Z wszystkich danych pozbywamy się rekordu o cenie = 0.**
+
+
+# Zmienna parki
+
+```{r}
+ggplot(data)+
+  geom_boxplot(aes(x=parki))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="Rozkład zmiennej parki")
+
+data%>%
+ggplot()+
+  geom_boxplot(aes(x=parki))+
+  labs(title="Rozkład zmiennej parki dla wszystkich powiatów")
+
+dane_okrojone<-dane_okrojone%>%filter(parki<500)
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(parki),"odchylenie"=sd(parki),"skośność"=skewness(parki),"kurtoza"=kurtosis(parki))
+razem<-data%>%summarize("średnia"=mean(parki),"odchylenie"=sd(parki),"skośność"=skewness(parki),"kurtoza"=kurtosis(parki))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+
+kable(t(razem),align="l",format="markdown",caption="Razem")
+
+
+
+```
+
+
+
+
+
+
+```{r}
+ 
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$parki)/mean(data$parki)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(parki)/mean(parki))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(parki)/mean(parki))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+
+```
+
+
+**Filtrujemy o parki w ilości mniejszej niż 500.**
+
+
+# Zmienna dochody brutto na mieszkańca
+
+
+
+```{r}
+ggplot(data)+
+  geom_boxplot(aes(x=ogółem))+
+  facet_wrap(~rodzaj_powiat,nrow = 2)+
+  labs(title="rozkład zmiennej dochody na mieszkańca")
+
+data%>%
+ggplot(aes(x=ogółem,y=1))+
+  geom_boxplot()+
+  labs(title="rozkład zmiennej dochody na mieszkańca dla wszystkich powiatów")
+
+dane_okrojone<-dane_okrojone%>%filter(ogółem>0 & ogółem<9000)
+data<-data%>%filter(ogółem>0)
+
+oddzielnie<-data%>%group_by(rodzaj_powiat)%>%summarize("średnia"=mean(ogółem),"odchylenie"=sd(ogółem),"skośność"=skewness(ogółem),"kurtoza"=kurtosis(ogółem))
+razem<-data%>%summarize("średnia"=mean(ogółem),"odchylenie"=sd(ogółem),"skośność"=skewness(ogółem),"kurtoza"=kurtosis(ogółem))
+
+kable(t(oddzielnie),align="l",format="markdown",caption="Oddzielnie")
+
+kable(t(razem),align="l",format="markdown",caption="Razem")
+
+
+
+```
+
+
+
+
+
+
+```{r}
+ 
+zmiennosc<-data.frame("razem"="","grodzkie"="","ziemskie"="")
+
+zmiennosc$razem<-sd(data$ogółem)/mean(data$ogółem)
+
+
+zmiennosc$grodzkie<-data%>%
+  filter(rodzaj_powiat=="grodzki")%>%
+   summarise("Zmienność grodzkie"=sd(ogółem)/mean(ogółem))%>%
+  pull()
+
+
+
+zmiennosc$ziemskie<-data%>%
+  filter(rodzaj_powiat=="ziemski")%>%
+   summarise(sd(ogółem)/mean(ogółem))%>%
+  pull()
+
+kable(zmiennosc,align = "c",format = "markdown",caption="Wsp.zmienności")
+
+```
+
+
+**Dla wszystkich danych usuwamy rekord z zerową wartością. Dla danych okrojonych filtrujemy dla rekordów o dochodach poniżej 9000.**
+
+
+
+
+
+
+# Zebrane statystyki opisowe przed oraz po okrojeniu danych
+
+## Przed:
+
+```{r message=FALSE, warning=FALSE}
+
+statystyki <- function(x) {
+  c(średnia = mean(x),
+    odchylenie = sd(x),
+    skośność = skewness(x),
+    kurtoza = kurtosis(x))
+}
+numeric_variables<-unlist(lapply(data,is.numeric))
+wyniki <- as.data.frame(sapply(data[numeric_variables], statystyki))
+```
+
+```{r}
+kable(wyniki[1:4], format="markdown",align="l",caption="Wszystkie dane")
+kable(wyniki[5:8], format="markdown",align="l",caption="Wszystkie dane")
+
+```
+
+
+```{r}
+wyniki2 <- as.data.frame(sapply((data%>%filter(rodzaj_powiat=="grodzki"))[numeric_variables], statystyki))
+kable(wyniki2[1:4], format="markdown",align="l",caption="Grodzkie")
+kable(wyniki2[5:8], format="markdown",align="l",caption="Grodzkie")
+```
+
+```{r}
+wyniki3 <- as.data.frame(sapply((data%>%filter(rodzaj_powiat=="ziemski"))[numeric_variables], statystyki))
+kable(wyniki3[1:4], format="markdown",align="l",caption="Ziemskie")
+kable(wyniki3[5:8], format="markdown",align="l",caption="Ziemskie")
+```
+
+
+
+
+
+## Po:
+
+```{r}
+wyniki <- as.data.frame(sapply(dane_okrojone[numeric_variables], statystyki))
+```
+
+
+```{r}
+
+kable(wyniki[1:4], format="markdown",align="l",caption="Wszystkie dane")
+kable(wyniki[5:8], format="markdown",align="l",caption="Wszystkie dane")
+
+```
+
+
+```{r}
+wyniki2 <- as.data.frame(sapply((dane_okrojone%>%filter(rodzaj_powiat=="grodzki"))[numeric_variables], statystyki))
+kable(wyniki2[1:4], format="markdown",align="l",caption="Grodzkie")
+kable(wyniki2[5:8], format="markdown",align="l",caption="Grodzkie")
+```
+
+```{r}
+wyniki3 <- as.data.frame(sapply((dane_okrojone%>%filter(rodzaj_powiat=="ziemski"))[numeric_variables], statystyki))
+kable(wyniki3[1:4], format="markdown",align="l",caption="Ziemskie")
+kable(wyniki3[5:8], format="markdown",align="l",caption="Ziemskie")
+```
+
+# N.T współczynników zmienności
+
+Nie da się ukryć, że dane mają współczynniki zmienności con. duże. Są również bardzo 'skośne', tak więc, wpływ na regresję liniową mogą mieć znaczący.
+W przypadku regresji liniowej zakłada się, że dane mają rozkład normalny, co oznacza, że są symetryczne i równomiernie rozłożone wokół średniej. Jednak, gdy dane są bardzo skośne, istnieje kilka konsekwencji jak chociażby obciążone estymatory współczynników.
+
+
+# Korelacje (wszystkie dane)
+
+
+
+
+```{r, fig.height = 6, fig.width = 8}
+
+library(corrplot)
+numeric_variables<-unlist(lapply(data,is.numeric))
+
+
+par(mfrow=c(1, 2))
+corrplot(cor(data[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Przed",mar=c(0,0,2,0))
+corrplot(cor(dane_okrojone[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Po okrojeniu danych",mar=c(0,0,2,0))
+```
+
+
+
+# Korelacje dla regionów grodzkich
+
+
+
+```{r,fig.height = 4, fig.width = 8}
+
+
+par(mfrow=c(1, 2))
+
+corrplot(cor((data%>%filter(rodzaj_powiat=="grodzki"))[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Przed",mar=c(0,0,2,0))
+corrplot(cor((dane_okrojone%>%filter(rodzaj_powiat=="grodzki"))[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Po okrojeniu danych",mar=c(0,0,2,0))
+
+```
+
+# Dla rejonów ziemskich
+
+
+```{r,fig.height = 4, fig.width = 8}
+par(mfrow=c(1, 2))
+
+corrplot(cor((data%>%filter(rodzaj_powiat=="ziemski"))[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Przed",mar=c(0,0,2,0))
+corrplot(cor((dane_okrojone%>%filter(rodzaj_powiat=="ziemski"))[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Po okrojeniu danych",mar=c(0,0,2,0))
+```
+
+
+
+Jak jeszcze w przypadku obszarów grodzkich można dopatrzeć się korelacji (niestety są również duże korelacje miedzy samymi zmiennymi objaśniającymi, ale o tym potem), tak dla obszarów ziemskich wygląda to nie za pocieszająco. 
+
+
+
+# Metoda Hellwiga
+
+## Wszystkie dane
+
+Do analizy zmiennych metodą Hellwiga dla wszystkich danych użyjemy tylko danych okrojonych.
+
+```{r}
+calculate_correlation <- function(cols_combination, cor_matrix) {
+  correlation_values <- cor_matrix[cols_combination[1], cols_combination[2]]
+  return(correlation_values)
+}
+hellwig_calc<-function(Xs)
+{
+  numeric_variables<-unlist(lapply(Xs,is.numeric))
+  Xs<-Xs[numeric_variables]
+  cor_matrix<-cor(Xs)
+  zmienna_cel = colnames(Xs)[1]
+  Xs<-Xs[-1]
+  hellwig_list<-list()
+  for(i in colnames(Xs))
+  {
+    hellwig_list[i]=calculate_correlation(c(zmienna_cel,i),cor_matrix)^2
+  }
+  for(y in 2:ncol(Xs))
+  {
+    kombinacje <- combn(colnames(Xs), y)
+  
+    for(x in 1:ncol(kombinacje))
+    {
+      kombinacja<-kombinacje[,x]
+      correlations<-c()
+      for(i in 1:length(kombinacja))
+      {
+        sumy_korelacyjne<-0
+  
+        core_core<-calculate_correlation(c("samochodyZielone",kombinacja[1]),cor_matrix)
+        for(j in 1:(length(kombinacja)-1))
+        {
+          sumy_korelacyjne=sumy_korelacyjne+abs(calculate_correlation(c(kombinacja[1],kombinacja[j+1]),cor_matrix))
+        }
+        cor_one_variable<-core_core^2/(1+sumy_korelacyjne)
+        kombinacja <- c(kombinacja[-1], kombinacja[1])
+  
+        correlations<-c(correlations,cor_one_variable)
+      }
+      hellwig_list[[paste(kombinacja, collapse = "_")]]=sum(correlations)
+  
+    }
+  }
+  posortowane_indeksy <- order(unlist(hellwig_list))
+  posortowana_lista <- hellwig_list[posortowane_indeksy]
+  
+  return (posortowana_lista)
+}
+
+hellwig_dla_wszystkich<-hellwig_calc(dane_okrojone)
+
+
+```
+
+
+Najwyższe otrzymane wartości:
+```{r}
+tail(hellwig_dla_wszystkich,5)
+```
+*Ciężko zaprzeczyć, że liczba ludności absolutnie dominuje pozostałe zmienne (oczywiście, mogliśmy się tego spodziewać).*
+*Zakładając, że chcielibyśmy wziąć kombinację conajmniej 3-cechową, wg. metody Hellwiga wzielibyśmy np. kombinację ludność-odsetek65-cenyMieszkan.*
+
+## Grodzkie
+
+
+```{r}
+hellwig_dla_grodzkich<-hellwig_calc((dane_okrojone%>%filter(rodzaj_powiat=="grodzki")))
+
+tail(hellwig_dla_grodzkich,5)
+```
+*Sytuacja bardzo podobna, a współczynniki nawet wyższe. Ludność dalej dominuję, lecz wydaje się, że nieco mniej. *
+*Zakładając, że chcielibyśmy wziąć kombinację conajmniej 3-cechową, wg. metody Hellwiga wzielibyśmy np. kombinację ludność-przystanki-cenyMieszkan-ogółem(wynagrodzenie).*
+
+
+## Ziemskie
+
+```{r}
+hellwig_dla_ziemskich<-hellwig_calc((dane_okrojone%>%filter(rodzaj_powiat=="ziemski")))
+
+tail(hellwig_dla_ziemskich,5)
+```
+
+
+
+
+
+# Metoda Hellwiga bez ludności
+
+## Wszystkie dane
+
+Do analizy zmiennych metodą Hellwiga dla wszystkich danych użyjemy tylko danych okrojonych.
+
+
+```{r}
+
+hellwig_dla_wszystkich<-hellwig_calc(dane_okrojone[-4])
+
+```
+
+
+Najwyższe otrzymane wartości:
+```{r}
+tail(hellwig_dla_wszystkich,5)
+```
+
+
+W przypadku metody Hellwiga gdy nie bierzemy pod uwagę ludności powiatu widzimy wyraźne pogorszenie informacji przenoszonej przez zmienne. Najlepszą kombinacją zmiennych objaśniających jest: gęstość-przystanki-ceny mieszkań
+
+
+## Grodzkie
+
+
+```{r}
+hellwig_dla_grodzkich<-hellwig_calc((dane_okrojone[-4]%>%filter(rodzaj_powiat=="grodzki")))
+
+tail(hellwig_dla_grodzkich,5)
+```
+
+Podobnie jak w wersji z ludnością widzimy znaczny wzrost współczynników. W tym przypadku wybralibyśmy model z następującymi zmiennymi: przystanki-cenyMieszkań-ogółem
+
+## Ziemskie
+
+```{r}
+hellwig_dla_ziemskich<-hellwig_calc((dane_okrojone[-4]%>%filter(rodzaj_powiat=="ziemski")))
+
+tail(hellwig_dla_ziemskich,5)
+```
+
+Powiaty ziemskie ponownie wykazują najgorsze wskaźniki pojemności informacji.
+
+
+
+# Wnioski
+
+Dane które posiadamy okazują się nie być najlepszymi do tworzenia modelu przewidującego liczbę samochodów zielonych. Jest tak z kilku powodów:
+
+- niskie korelacje między potencjalnymi zmiennymi objaśniającymi a zmienną objaśnianą
+
+- średnie korelacje między zmiennymi objaśniającymi, co może prowadzić do efektu katalizy
+
+- nieistotność zmiennych - dane które podejrzewaliśmy, że mogą mieć wpływ na liczbę aut zielonych tak naprawdę nie mają dużego wpływu. 
+
+- brak dostępności zmiennych, które mogłyby mieć większy wpływ - brak informacji na GUSie o liczbie ładowarek elektrycznych w powiatach oraz brak danych o np.: liczbie paneli słonecznych w gospodarstwach domowych. Dane te mogłyby poprawić wyniki naszego modelu
+
+- duża zmienność liczby samochodów elektrycznych w powiatach - np.: w mieście Kraków według danych w 2022 roku było około 30 tysięcy aut elektrycznych, a w mieście Wrocław, który ma mniejszą ludność niż Kraków, było ich około 70 tysięcy. Jest to tylko jeden przykład z wielu i ciężko jest nam wskazać na naszych danych przyczyny tego zjawiska.
+
+Najlepszym doborem zmiennych objaśniających jaki możemy uzyskać na naszych danych była by model : auta zielone~ludność, ceny mieszkań.
+
+
+
+# Model przeskalowany o ludność
+
+W tym rozdziale trochę przebudujemy nasz model i zbadamy ilość samochodów na 10 000 mieszkańców.
+Zeskalujemy zmienną samochodów, parków oraz przystanków. (wykorzystamy dane okrojone)
+
+
+```{r,fig.height = 4, fig.width = 8}
+dane_skalowane<-dane_okrojone
+dane_skalowane$samochodyZielone<-10000*dane_skalowane$samochodyZielone/dane_skalowane$ludnosc
+dane_skalowane$parki<-10000*dane_skalowane$parki/dane_skalowane$ludnosc
+dane_skalowane$przystanki<-10000*dane_skalowane$przystanki/dane_skalowane$ludnosc
+
+par(mfrow=c(1, 3))
+corrplot(cor(dane_skalowane[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Wszystkie",mar=c(0,0,2,0))
+corrplot(cor((dane_skalowane%>%filter(rodzaj_powiat=="grodzki"))[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Grodzkie",mar=c(0,0,2,0))
+corrplot(cor((dane_skalowane%>%filter(rodzaj_powiat=="ziemski"))[numeric_variables]), addCoef.col = 'black',
+         cl.pos = 'n', col = COL2('PiYG'),type = 'lower',number.cex = 0.7,title = "Ziemskie",mar=c(0,0,2,0))
+```
+
+
+## Hellwig
+
+
+### Wszystkie dane
+
+```{r}
+
+hellwig_dla_wszystkich<-hellwig_calc(dane_skalowane)
+
+```
+
+
+Najwyższe otrzymane wartości:
+```{r}
+tail(hellwig_dla_wszystkich,5)
+```
+
+
+Po przeskalowaniu danych przez ludność widzimy bardzo duży spadek pojemności informacyjnej naszych danych. Wszystkie wskaźniki są poniżej 0.1.
+
+
+### Grodzkie
+
+
+```{r}
+hellwig_dla_grodzkich<-hellwig_calc((dane_skalowane%>%filter(rodzaj_powiat=="grodzki")))
+
+tail(hellwig_dla_grodzkich,5)
+```
+
+Co ciekawe widzimy wzrost pojemności informacyjnej w przypadku powiatów grodzkich. Najwyższy wskaźnik miałby model z samą ceną mieszkań (ponieważ powstała bardzo znaczna korelacja) i wynosiłby 0.69, podczas gdy bez skalowania najwyższy wskaźnik był równy 0.61.
+
+### Ziemskie
+
+```{r}
+hellwig_dla_ziemskich<-hellwig_calc((dane_skalowane%>%filter(rodzaj_powiat=="ziemski")))
+
+tail(hellwig_dla_ziemskich,5)
+```
+
+Zupełnie na odwrót ma się sytuacja dla powiatów ziemskich - tutaj wyszły wskaźniki równe prawie 0. Oznacza to, że skalowanie zmiennych przez ludność działa dobrze w przypadku powiatów grodzkich, a bardzo pogarsza wskaźniki dla powiatów ziemskich
+
+
