@@ -1,0 +1,339 @@
+---
+title: "Pominięcie istotnej zmiennej (nieskorelowanej z innymi)."
+author: "Szymon Popkiewicz, Kacper Prorok"
+date: "2024-03-30"
+output: 
+  html_document:
+    code_folding: hide
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: yes
+      smooth_scroll: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+set.seed(123)
+library(tidyverse)
+library(ggplot2)
+library(nortest)
+library(tseries)
+library(knitr)
+
+a<-2
+b<-3
+c<-5
+n<-200
+df<-data.frame("est_x1"=0,"stat_t_x1"=0,"ist_x1"=0,"r_adj"=0,"r"=0,"po_est_x1"=0,"po_stat_t_x1"=0,"po_ist_x1"=0,"po_r_adj"=0,"po_r"=0)
+for(i in 1:1024)
+{
+  
+  
+  x1<-runif(n,0,20)
+  x2<-runif(n,0,10)
+  e<-rnorm(n,0,1)
+  Y<-a*x1 + b*x2 +e + c
+  #przed
+  model=lm(Y~x1+x2)
+  x1_est=as.numeric(summary(model)$coefficients[,1][2])
+  t_x1<-(x1_est - a)/as.numeric(summary(model)$coefficients[,2][2])#statystyka t-studenta dla alfa=0.05
+  ist_x1<-abs(t_x1)>qt(1 - 0.05/2, n-3)
+  r_adj<-summary(model)$adj.r.squared
+  r<-summary(model)$r.squared
+  
+  #po
+  model2=lm(Y~x1)
+  po_x1_est=as.numeric(summary(model2)$coefficients[,1][2])
+ po_t_x1<-(po_x1_est - a)/as.numeric(summary(model2)$coefficients[,2][2])#statystyka t-studenta dla alfa=0.05
+  po_ist_x1<-abs(po_t_x1)>qt(1 - 0.05/2, n-2)
+  po_r_adj<-summary(model2)$adj.r.squared
+  po_r<-summary(model2)$r.squared
+  df<-rbind(df,c(x1_est,t_x1,ist_x1,r_adj,r,po_x1_est,po_t_x1,po_ist_x1,po_r_adj,po_r))
+  
+  
+}
+df<-df[-1,]
+rownames(df)<-NULL
+```
+
+# Opis projektu 
+
+*Projekt 3, wersja 2*
+
+Wygenerowaniu danych spełniających zależność: 𝑦 = 𝑏0 + 𝑏1𝑥1 + 𝑏2𝑥2 + 𝜀 (gdzie 𝑏0=5,𝑏1=2,𝑏2=3), a następnie estymowaniu parametrów modelu:
+
+𝑦 = 𝛼0 + 𝛼1𝑥1 + 𝛼2𝑥2 + 𝜀 i 𝑦 = 𝛽0 + 𝛽1𝑥1 + 𝜀
+
+**Jeden model zawiera dwie zmienne objaśniające, a w drugim pomijamy jedną istotną zmienną.**
+
+
+Dane są losowane z:
+
+-dla x1 z rozkładu jednostajnego (0,20)
+
+-dla x2 z rozkładu jednostajnego (0,20)
+
+-dla e z rozkładu N(0,1)
+
+
+
+
+
+Na tej podstawie badamy wpływ pominięcia istotnej zmiennej, a w szczególności zwracamy uwagę na:
+ 
+• wpływ na oszacowania parametrów modelu (porównać oszacowania 𝛼1i 𝛽1, zbadać
+rozkład i nieobciążoność estymatorów),
+
+• na błędy estymatorów parametrów 𝛼1i 𝛽1,
+
+• na statystykę t w testach 𝐻0:𝛼1 = 𝑏1 i 𝐻0:𝛽1 = 𝑏1 (jej rozkład, odsetek odrzuceń 𝐻0)
+
+• na wsp. determinacji (skorygowany wsp. determinacji) w obu modelach.
+
+
+
+Dla ułatwienia czytania projektu warto zapamiętać, że:
+
+*Estymator 𝛼1 pochodzi z modelu z dwoma istotnymi zmiennymi objaśniającymi natomiast estymator 𝛽1 pochodzi z modelu z pominiętą istotną zmienną.*
+
+
+
+
+# Wpływ na oszacowania parametrów modelu
+
+
+Następujący wykres przedstawia rozkład naszych dwóch estymatorów 𝛼1,𝛽1, gdy współczynniki przy naszym modelu wynosiły 𝑏0=5,𝑏1=2,𝑏2=3.
+
+
+```{r}
+df%>%
+  pivot_longer(cols=c("est_x1","po_est_x1"),names_to = "przed_po",values_to = "oszacowania")%>%
+  ggplot(aes(oszacowania,fill=przed_po))+
+  geom_density(alpha=0.5)+
+  labs(title="Rozkład estymatorów parametrów",
+       fill="Estymatory")+
+  scale_fill_manual(labels = c("𝛼1","𝛽1"),values = c("pink","blue"))
+
+```
+
+Badanie normalności powyższych rozkładów:
+
+```{r}
+cat("𝛼1: Shapiro-Wilk", shapiro.test(df$est_x1)$p.value,
+    "\n𝛼1: Lillieforse", lillie.test(df$po_est_x1)$p.value,
+    "\n𝛽1: Shapiro-Wilk", shapiro.test(df$est_x1)$p.value,
+    "\n𝛽1: Lillieforse", lillie.test(df$po_est_x1)$p.value)
+
+```
+
+Wnioski:
+
+- Testy normalności we wszystkich przypadkach wykazały, że rozkład jest zgodny z rozkładem normalnym. Usunięcie istotnej zmiennej objaśniającej nie wpłyneło na wyniki testów.
+
+- Po usunięciu istotnej zmiennej losowej widzimy, że rozkład estymatora jest dużo bardziej płaski i jest spore prawdopodobieństwo że będzie dość istotnie różny od 2. W przypadku gdy w modelu mamy dwie istotne zmienne rozkład estymatora jest dużo bardziej "zbity" i przeważnie będzie bardzo blisko prawdziwej wartości.
+
+
+## Badanie obciążoności
+
+
+
+```{r}
+cat("wartość oczekiwana 𝛼1: ",mean(df$est_x1),"\nwartość oczekiwana 𝛽1: ",mean(df$po_est_x1), "\nrelative_error_𝛼1:",mean(abs((a - df$est_x1) /a)), "\nrelative_error_𝛽1:",mean(abs((a - df$po_est_x1) /a)),"\nMSE_𝛼1:",mean((a - df$est_x1)^2),"\nMSE_𝛽1:",mean((a - df$po_est_x1)^2))
+
+```
+
+
+Wnioski:
+
+- Wartość oczekiwana w obydwóch przypadkach jest bardzo podobna
+
+- Relative error parametru 𝛽1 jest większy od 𝛼1, więc estymator będzie popełniał większy błąd oszacowania
+
+- Błąd średniokwartylowy (MSE) również jest większy w przypadku estymatora 𝛽1, czyli jest on mniej dokładny niż estymator 𝛼1
+
+
+# Statystyka t w testach 
+
+```{r}
+
+df%>%
+  pivot_longer(cols=c("stat_t_x1","po_stat_t_x1"),names_to = "statystyki_t",values_to = "wartosci")%>%
+  ggplot(aes(wartosci,color=statystyki_t))+
+  geom_density(alpha=0.5,linewidth=1)+
+  labs(title="Rozkłady statystyk t w tescie 'estymator = b1' ",fill="Estymatory",x="Wartości statystyki")+
+  scale_color_manual(labels = c("𝛽1","𝛼1"),values = c("blue","pink"))
+```
+
+Badanie normalności powyższych rozkładów:
+
+```{r}
+cat("PRZED: Shapiro-Wilk", shapiro.test(df$stat_t_x1)$p.value,
+    "\nPRZED: Lillieforse", lillie.test(df$po_stat_t_x1)$p.value,
+    "\nPO: Shapiro-Wilk", shapiro.test(df$stat_t_x1)$p.value,
+    "\nPO: Lillieforse", lillie.test(df$po_stat_t_x1)$p.value)
+```
+
+Ponownie testy normalności wykazały, że wszystkie rozkłady są zgodne z rozkładem normalnym.
+
+## Hipotezy testów:
+
+
+
+H0: 𝛼1 = b1
+
+H1: 𝛼1 != b1
+
+
+Dla 𝛼1 (wersja z dwoma istotnymi zmiennymi):
+
+```{r}
+table(df$ist_x1)
+
+```
+
+H0: 𝛽1 = b1
+
+H1: 𝛽1 != b1
+
+
+Dla 𝛽1 (wersja z pominiętą zmienną istotną):
+
+```{R}
+table(df$po_ist_x1)
+
+```
+1 - oszacowany parametr różni się istotnie od odpowiadającej wartości teoretycznej (b1)
+
+0 - oszacowany parametr nie różni się istotnie od odpowiadającej wartości teoretycznej (b1)
+
+Wnioski:
+
+- Rozkład wartości statystyki nie różni się zbytnio w obydwóch przypadkach i praktycznie większość wartości znajduje się w przedziale od -2 do 2, co oznacza że przyjmujemy hipotezę, że estymator=b1 
+
+- W tabelkach potwierdza się, to co widzimy na wykresie gęstości - praktycznie w każdym przypadku została przyjęta hipoteza H0, niezależnie czy model miał dwie zmienne objaśniające czy jedną
+
+
+# Wpływ na współczynnik determinacji R 
+
+
+```{r}
+df%>%
+  pivot_longer(cols=c("po_r","r"),names_to = "regular_R_squared",values_to = "wartosci")%>%
+  ggplot(aes(wartosci,y=regular_R_squared,color=regular_R_squared))+
+  geom_jitter(alpha=.5)+
+  geom_boxplot(alpha=0.5)+
+  labs(title="Rozkłady R.squared dla symulowanych modeli",
+       x="Wartości R squared",
+       y="",
+       color="estymator")+
+  scale_color_manual(labels = c("𝛽1","𝛼1"),values = c("blue","pink"))
+```
+
+
+
+## Wpływ na skorygowany współczynnik determinacji R 
+
+```{r}
+
+df%>%
+  pivot_longer(cols=c("po_r_adj","r_adj"),names_to = "adjusted_R_squared",values_to = "wartosci")%>%
+  ggplot(aes(wartosci,y=adjusted_R_squared,color=adjusted_R_squared))+
+  geom_jitter(alpha=.5)+
+  geom_boxplot(alpha=0.5)+
+  labs(title="Rozkłady adj.R.squared dla symulowanych modeli",
+       x="Wartości R squared adjusted",
+       y="",
+       color="estymator")+
+  scale_color_manual(labels = c("𝛽1","𝛼1"),values = c("blue","pink"))
+
+```
+
+
+Wnioski;
+
+- Współczynnik R^2 w przypadku gdy mamy model z dwoma istotnymi zmiennymi prakytcznie zawsze wynosi 1, co oznacza, że model bardzo dobrze szacuje wartości. 
+
+- W przypadku wariantu, gdy pomijamy jedną istotną zmienną model nie jest już tak dokładny i R^2 jest dużo niższe. W naszym przypadku większość wartości R^2 oscyluje wokół wartości 0.65.
+
+- Skorygowany współczynnik determinacji R zachowuje się bardzo podobnie jak współczynnik R.
+
+
+# Zmiana wartości współczynnika przy drugiej istotnej zmiennej 
+
+```{r}
+
+df<-data.frame("est_x1"=0,"stat_t_x1"=0,"ist_x1"=0,"r_adj"=0,"r"=0,"po_est_x1"=0,"po_stat_t_x1"=0,"po_ist_x1"=0,"po_r_adj"=0,"po_r"=0,"b"=0)
+
+for(j in c(-60,-30,-6,-2,-0.5,0.5,2,6,30,60)){
+  for(i in 1:1024)
+  {
+    
+    x1<-runif(n,0,20)
+    x2<-runif(n,0,10)
+    e<-rnorm(n,0,1)
+    Y<-a*x1 + j*x2 +e + c
+    #przed
+    model=lm(Y~x1+x2)
+    x1_est=as.numeric(summary(model)$coefficients[,1][2])
+    t_x1<-(x1_est - a)/as.numeric(summary(model)$coefficients[,2][2])#statystyka t-studenta dla alfa=0.05
+    ist_x1<-abs(t_x1)>qt(1 - 0.05/2, 50-3)
+    r_adj<-summary(model)$adj.r.squared
+    r<-summary(model)$r.squared
+    
+    #po
+    model2=lm(Y~x1)
+    po_x1_est=as.numeric(summary(model2)$coefficients[,1][2])
+   po_t_x1<-(po_x1_est - a)/as.numeric(summary(model2)$coefficients[,2][2])#statystyka t-studenta dla alfa=0.05
+    po_ist_x1<-abs(po_t_x1)>qt(1 - 0.05/2, 50-3)
+    po_r_adj<-summary(model2)$adj.r.squared
+    po_r<-summary(model2)$r.squared
+    df<-rbind(df,c(x1_est,t_x1,ist_x1,r_adj,r,po_x1_est,po_t_x1,po_ist_x1,po_r_adj,po_r,j))
+    
+    
+}
+}
+df<-df[-1,]
+rownames(df)<-NULL
+
+```
+
+
+Na koniec pokazujemy jak istotny wpływ na nasze modele ma wielkość współczynnika b1, który stoi przy istotnej zmiennej objaśniającej, którą w drugim modelu pomijamy. Wykresy poniżej ukazują rozkłady współczynnika R dla modelu drugiego,które skategoryzowane są przez wielkość współczynnika b1:
+
+```{r}
+ggplot(df,aes(x=po_r))+
+  geom_density(fill="red")+
+  facet_wrap(~b,nrow=3)+
+  labs(title="Rozkłady R squared",
+       x="R squared",
+       fill="wartość b")
+```
+
+
+Na poniższych wykresach pokazujemy jeszcze jak bardzo różni się rozkład estymatora 𝛽1 w zależności od wielkości współczynnika b1:
+
+
+```{r message=FALSE, warning=FALSE}
+
+df%>%
+  ggplot(aes(po_est_x1))+
+  geom_density(alpha=0.5,fill="pink")+
+  ylim(0,3)+
+  xlim(-2.5,6.5)+
+  facet_wrap(~b,ncol = 3)+
+  labs(title="Rozkład estymatorów parametrów dla 𝛽1, w zależności od współczynnika przy X2")
+```
+
+
+Wnioski:
+
+- Wraz ze wzrostem wartości bezwzględnej maleje R squared dla modelu z pominiętą istotną zmienną - jest to spowodowane tym, że im mocniejszy wpływ ta druga istotna zmienna miała na model tym bardziej będzie zaburzać to estymacje modelu w którym ją pomijamy.
+
+- Wraz ze wzrostem wartośći bezwzględnej współczynnika rośnie wariancja (rozkład robi się bardziej płaski), natomiast przy spadku wartości bezwzględnej współczynnika maleje wariancja (rozkład jest bardzej szpiczasty i skupiony wokół jednej wartości). 
+
+
+**Utworzyliśmy też kilka wykresów, które można samemu ustawiać, aby zrozumieć co dzieje się przy zmianach współczynników. Znajdują się one pod tym linkiem:  https://2yo13d-kacpro94.shinyapps.io/Projekt3/**
