@@ -15,7 +15,7 @@
 
 1. **Initial Model**  
    Fit the linear model:  
-   \[ Y = \beta_0 + \beta_1 X + \epsilon \]  
+  $$ Y = \beta_0 + \beta_1 X + \epsilon $$  
    where \( Y \) represents expenses and \( X \) represents income.
    
 2. **Parameter Estimation**  
