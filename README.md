@@ -1,4 +1,4 @@
-# Linear Model Analysis Based on `food.csv` Data
+# Project 1 Linear Model Analysis Based on `food.csv` Data
 
 ## Objectives
 
